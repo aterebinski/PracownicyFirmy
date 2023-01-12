@@ -7,6 +7,7 @@ namespace PracownicyFirmy {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Data::SqlClient;
 	using namespace System::Drawing;
 
 	/// <summary>
@@ -21,6 +22,7 @@ namespace PracownicyFirmy {
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
+			this->generateView();
 		}
 
 	protected:
@@ -34,6 +36,8 @@ namespace PracownicyFirmy {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	protected:
 
 	private:
 		/// <summary>
@@ -48,18 +52,62 @@ namespace PracownicyFirmy {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
+			// 
+			// dataGridView1
+			// 
+			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridView1->Location = System::Drawing::Point(176, 54);
+			this->dataGridView1->Name = L"dataGridView1";
+			this->dataGridView1->Size = System::Drawing::Size(240, 150);
+			this->dataGridView1->TabIndex = 0;
+			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &PracownicyForm::dataGridView1_CellContentClick);
 			// 
 			// PracownicyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(756, 607);
+			this->Controls->Add(this->dataGridView1);
 			this->Name = L"PracownicyForm";
 			this->Text = L"PracownicyForm";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+			private: System::Void dataGridView1_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+			}
+
+		   System::Void generateView() {
+			   String^ connectionString = L"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PracownicyDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+			   SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+			   SqlCommand^ sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy", sqlConnection);
+			   SqlDataReader^ sqlDataReader;
+			   try
+			   {
+				   SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
+				   sqlDataAdapter->SelectCommand = sqlCommand;
+				   DataTable^ dataTable = gcnew DataTable();
+				   sqlDataAdapter->Fill(dataTable);
+				   BindingSource^ bindingSource = gcnew BindingSource();
+
+				   bindingSource->DataSource = dataTable;
+				   dataGridView1->DataSource = bindingSource;
+				   sqlDataAdapter->Update(dataTable);
+			   }
+			   catch (Exception^ ex)
+			   {
+					
+			   }
+
+
+
+				//https://www.youtube.com/watch?v=r_cj1uhs9-c
+		   };
 	};
+
+	
 }
