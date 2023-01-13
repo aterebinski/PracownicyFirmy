@@ -121,9 +121,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EdytujPracownikaForm.cpp" />
     <ClCompile Include="PracownicyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EdytujPracownikaForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="PracownicyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
