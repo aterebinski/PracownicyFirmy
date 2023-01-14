@@ -124,7 +124,8 @@ namespace PracownicyFirmy {
 
 		   System::Void generateView() {
 			   //String^ connectionString = L"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PracownicyDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-			   String^ connectionString = L"Server=localhost\SQLEXPRESS;Database=PracownicyDB;Trusted_Connection=True;";
+			   //String^ connectionString = L"Server=(localdb)\\MSSQLLocalDB;Database=PracownicyDB;Trusted_Connection=True;";
+			   String^ connectionString = L"Server=localhost\\SQLEXPRESS;Database=PracownicyDB;Trusted_Connection=True;";
 			   SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
 			   SqlCommand^ sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy", sqlConnection);
 			   SqlDataReader^ sqlDataReader;
