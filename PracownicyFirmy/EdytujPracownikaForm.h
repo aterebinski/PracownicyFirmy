@@ -14,13 +14,22 @@ namespace PracownicyFirmy {
 	/// </summary>
 	public ref class EdytujPracownikaForm : public System::Windows::Forms::Form
 	{
+	public: int idPracownika = 0;
+
 	public:
-		EdytujPracownikaForm(void)
+		EdytujPracownikaForm(int idPracownika)
 		{
 			InitializeComponent();
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
+			this->idPracownika = idPracownika;
+
+
+			if (idPracownika!=0)
+			{
+
+			}
 		}
 
 	protected:
@@ -34,8 +43,13 @@ namespace PracownicyFirmy {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::Label^ NameLbl;
+	private: System::Windows::Forms::TextBox^ ImieTextBox;
+	protected:
+
+	private: System::Windows::Forms::Label^ ImieLbl;
+	protected:
+
+
 	private: System::Windows::Forms::Button^ OkBtn;
 	private: System::Windows::Forms::ComboBox^ StanowiskoCBox;
 
@@ -47,8 +61,10 @@ namespace PracownicyFirmy {
 	private: System::Windows::Forms::Label^ PensjaLbl;
 	private: System::Windows::Forms::Label^ StanowiskoLbl;
 	private: System::Windows::Forms::Label^ LokalizacjaLbl;
-	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::TextBox^ textBox3;
+	private: System::Windows::Forms::TextBox^ NazwiskoTextBox;
+	private: System::Windows::Forms::TextBox^ PensjaTextBox;
+
+
 	private: System::Windows::Forms::ComboBox^ LokalizacjaCBox;
 
 	private: System::Windows::Forms::Button^ AnulujBtn;
@@ -70,37 +86,37 @@ namespace PracownicyFirmy {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->NameLbl = (gcnew System::Windows::Forms::Label());
+			this->ImieTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->ImieLbl = (gcnew System::Windows::Forms::Label());
 			this->OkBtn = (gcnew System::Windows::Forms::Button());
 			this->StanowiskoCBox = (gcnew System::Windows::Forms::ComboBox());
 			this->NazwiskoLbl = (gcnew System::Windows::Forms::Label());
 			this->PensjaLbl = (gcnew System::Windows::Forms::Label());
 			this->StanowiskoLbl = (gcnew System::Windows::Forms::Label());
 			this->LokalizacjaLbl = (gcnew System::Windows::Forms::Label());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->NazwiskoTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->PensjaTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->LokalizacjaCBox = (gcnew System::Windows::Forms::ComboBox());
 			this->AnulujBtn = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
-			// textBox1
+			// ImieTextBox
 			// 
-			this->textBox1->Location = System::Drawing::Point(206, 115);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(278, 26);
-			this->textBox1->TabIndex = 0;
+			this->ImieTextBox->Location = System::Drawing::Point(206, 115);
+			this->ImieTextBox->Name = L"ImieTextBox";
+			this->ImieTextBox->Size = System::Drawing::Size(278, 26);
+			this->ImieTextBox->TabIndex = 0;
 			// 
-			// NameLbl
+			// ImieLbl
 			// 
-			this->NameLbl->AutoSize = true;
-			this->NameLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->ImieLbl->AutoSize = true;
+			this->ImieLbl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->NameLbl->Location = System::Drawing::Point(77, 115);
-			this->NameLbl->Name = L"NameLbl";
-			this->NameLbl->Size = System::Drawing::Size(53, 25);
-			this->NameLbl->TabIndex = 1;
-			this->NameLbl->Text = L" Imiê";
+			this->ImieLbl->Location = System::Drawing::Point(77, 115);
+			this->ImieLbl->Name = L"ImieLbl";
+			this->ImieLbl->Size = System::Drawing::Size(53, 25);
+			this->ImieLbl->TabIndex = 1;
+			this->ImieLbl->Text = L" Imiê";
 			// 
 			// OkBtn
 			// 
@@ -166,19 +182,19 @@ namespace PracownicyFirmy {
 			this->LokalizacjaLbl->TabIndex = 7;
 			this->LokalizacjaLbl->Text = L"Lokalizacja";
 			// 
-			// textBox2
+			// NazwiskoTextBox
 			// 
-			this->textBox2->Location = System::Drawing::Point(206, 195);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(278, 26);
-			this->textBox2->TabIndex = 8;
+			this->NazwiskoTextBox->Location = System::Drawing::Point(206, 195);
+			this->NazwiskoTextBox->Name = L"NazwiskoTextBox";
+			this->NazwiskoTextBox->Size = System::Drawing::Size(278, 26);
+			this->NazwiskoTextBox->TabIndex = 8;
 			// 
-			// textBox3
+			// PensjaTextBox
 			// 
-			this->textBox3->Location = System::Drawing::Point(206, 275);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(278, 26);
-			this->textBox3->TabIndex = 9;
+			this->PensjaTextBox->Location = System::Drawing::Point(206, 275);
+			this->PensjaTextBox->Name = L"PensjaTextBox";
+			this->PensjaTextBox->Size = System::Drawing::Size(278, 26);
+			this->PensjaTextBox->TabIndex = 9;
 			// 
 			// LokalizacjaCBox
 			// 
@@ -207,16 +223,16 @@ namespace PracownicyFirmy {
 			this->ClientSize = System::Drawing::Size(685, 660);
 			this->Controls->Add(this->AnulujBtn);
 			this->Controls->Add(this->LokalizacjaCBox);
-			this->Controls->Add(this->textBox3);
-			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->PensjaTextBox);
+			this->Controls->Add(this->NazwiskoTextBox);
 			this->Controls->Add(this->LokalizacjaLbl);
 			this->Controls->Add(this->StanowiskoLbl);
 			this->Controls->Add(this->PensjaLbl);
 			this->Controls->Add(this->NazwiskoLbl);
 			this->Controls->Add(this->StanowiskoCBox);
 			this->Controls->Add(this->OkBtn);
-			this->Controls->Add(this->NameLbl);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->ImieLbl);
+			this->Controls->Add(this->ImieTextBox);
 			this->Name = L"EdytujPracownikaForm";
 			this->Text = L"EdytujPracownikaForm";
 			this->ResumeLayout(false);

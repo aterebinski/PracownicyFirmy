@@ -128,7 +128,7 @@ namespace PracownicyFirmy {
 			   String^ connectionString = L"Server=localhost\\SQLEXPRESS;Database=PracownicyDB;Trusted_Connection=True;";
 			   SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
 			   SqlCommand^ sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy", sqlConnection);
-			   SqlDataReader^ sqlDataReader;
+			   //SqlDataReader^ sqlDataReader;
 			   try
 			   {
 				   SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
@@ -151,11 +151,13 @@ namespace PracownicyFirmy {
 				//https://www.youtube.com/watch?v=r_cj1uhs9-c
 		   };
 	private: System::Void DodajPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm;
+		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm(0);
 		AddForm->Show();
 	}
 private: System::Void EdytujPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	EdytujPracownikaForm^ EditForm = gcnew EdytujPracownikaForm;
+	int idPracownika = 0;
+	//dataGridView1->se
+	EdytujPracownikaForm^ EditForm = gcnew EdytujPracownikaForm(idPracownika);
 	EditForm->Show();
 }
 };
