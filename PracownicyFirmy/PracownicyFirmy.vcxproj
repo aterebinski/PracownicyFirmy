@@ -133,6 +133,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EdytujPracownikaForm.resx">
+      <DependentUpon>EdytujPracownikaForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PracownicyForm.resx">
       <DependentUpon>PracownicyForm.h</DependentUpon>
     </EmbeddedResource>

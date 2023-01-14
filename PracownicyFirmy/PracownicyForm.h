@@ -1,5 +1,5 @@
 #pragma once
-
+#include "EdytujPracownikaForm.h"
 namespace PracownicyFirmy {
 
 	using namespace System;
@@ -37,6 +37,9 @@ namespace PracownicyFirmy {
 			}
 		}
 	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	private: System::Windows::Forms::Button^ DodajPracownikaBtn;
+	private: System::Windows::Forms::Button^ EdytujPracownikaBtn;
+	private: System::Windows::Forms::Button^ UsunPracownikaBtn;
 	protected:
 
 	private:
@@ -53,25 +56,60 @@ namespace PracownicyFirmy {
 		void InitializeComponent(void)
 		{
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->DodajPracownikaBtn = (gcnew System::Windows::Forms::Button());
+			this->EdytujPracownikaBtn = (gcnew System::Windows::Forms::Button());
+			this->UsunPracownikaBtn = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// dataGridView1
 			// 
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Location = System::Drawing::Point(264, 83);
+			this->dataGridView1->Location = System::Drawing::Point(169, 83);
 			this->dataGridView1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersWidth = 62;
-			this->dataGridView1->Size = System::Drawing::Size(532, 761);
+			this->dataGridView1->Size = System::Drawing::Size(778, 605);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &PracownicyForm::dataGridView1_CellContentClick);
+			// 
+			// DodajPracownikaBtn
+			// 
+			this->DodajPracownikaBtn->Location = System::Drawing::Point(169, 728);
+			this->DodajPracownikaBtn->Name = L"DodajPracownikaBtn";
+			this->DodajPracownikaBtn->Size = System::Drawing::Size(200, 50);
+			this->DodajPracownikaBtn->TabIndex = 1;
+			this->DodajPracownikaBtn->Text = L"Dodaj pracownika";
+			this->DodajPracownikaBtn->UseVisualStyleBackColor = true;
+			this->DodajPracownikaBtn->Click += gcnew System::EventHandler(this, &PracownicyForm::DodajPracownikaBtn_Click);
+			// 
+			// EdytujPracownikaBtn
+			// 
+			this->EdytujPracownikaBtn->Location = System::Drawing::Point(462, 728);
+			this->EdytujPracownikaBtn->Name = L"EdytujPracownikaBtn";
+			this->EdytujPracownikaBtn->Size = System::Drawing::Size(200, 50);
+			this->EdytujPracownikaBtn->TabIndex = 2;
+			this->EdytujPracownikaBtn->Text = L"Edytuj pracownika";
+			this->EdytujPracownikaBtn->UseVisualStyleBackColor = true;
+			this->EdytujPracownikaBtn->Click += gcnew System::EventHandler(this, &PracownicyForm::EdytujPracownikaBtn_Click);
+			// 
+			// UsunPracownikaBtn
+			// 
+			this->UsunPracownikaBtn->Location = System::Drawing::Point(747, 728);
+			this->UsunPracownikaBtn->Name = L"UsunPracownikaBtn";
+			this->UsunPracownikaBtn->Size = System::Drawing::Size(200, 50);
+			this->UsunPracownikaBtn->TabIndex = 3;
+			this->UsunPracownikaBtn->Text = L"Usuñ pracownika";
+			this->UsunPracownikaBtn->UseVisualStyleBackColor = true;
 			// 
 			// PracownicyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1134, 934);
+			this->Controls->Add(this->UsunPracownikaBtn);
+			this->Controls->Add(this->EdytujPracownikaBtn);
+			this->Controls->Add(this->DodajPracownikaBtn);
 			this->Controls->Add(this->dataGridView1);
 			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"PracownicyForm";
@@ -111,7 +149,15 @@ namespace PracownicyFirmy {
 
 				//https://www.youtube.com/watch?v=r_cj1uhs9-c
 		   };
-	};
+	private: System::Void DodajPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm;
+		AddForm->Show();
+	}
+private: System::Void EdytujPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	EdytujPracownikaForm^ EditForm = gcnew EdytujPracownikaForm;
+	EditForm->Show();
+}
+};
 
 	
 }

@@ -198,6 +198,7 @@ namespace PracownicyFirmy {
 			this->AnulujBtn->TabIndex = 11;
 			this->AnulujBtn->Text = L"Anuluj";
 			this->AnulujBtn->UseVisualStyleBackColor = true;
+			this->AnulujBtn->Click += gcnew System::EventHandler(this, &EdytujPracownikaForm::AnulujBtn_Click);
 			// 
 			// EdytujPracownikaForm
 			// 
@@ -225,5 +226,8 @@ namespace PracownicyFirmy {
 #pragma endregion
 	private: System::Void OkBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
+private: System::Void AnulujBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	EdytujPracownikaForm::Close();
+}
 };
 }
