@@ -15,20 +15,45 @@ namespace PracownicyFirmy {
 	public ref class EdytujPracownikaForm : public System::Windows::Forms::Form
 	{
 	public: int idPracownika = 0;
+		  String^ connectionString = "";
 
 	public:
-		EdytujPracownikaForm(int idPracownika)
+		EdytujPracownikaForm(int idPracownika, String^ connectionString)
 		{
 			InitializeComponent();
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
 			this->idPracownika = idPracownika;
+			this->connectionString = connectionString;
 
-
-			if (idPracownika!=0)
+			
+			if (idPracownika!=0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
 			{
+				/*
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				SqlCommand^ sqlCommand = gcnew SqlCommand("select p.id, p.Imie, p.Nazwisko, p.idStanowiska, p.idLokalizacji, p.Pensja from dbo.Pracownicy p, dbo.Stanowiska s, dbo.Lokalizacje l where p.IdStanowiska = s.id and p.IdLokalizacji = l.ID; ", sqlConnection);
+				//SqlDataReader^ sqlDataReader;
+				try
+				{
+					SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
+					sqlDataAdapter->SelectCommand = sqlCommand;
+					DataTable^ dataTable = gcnew DataTable();
+					sqlDataAdapter->Fill(dataTable);
+					BindingSource^ bindingSource = gcnew BindingSource();
 
+					bindingSource->DataSource = dataTable;
+					dataGridView1->DataSource = bindingSource;
+					sqlDataAdapter->Update(dataTable);
+
+					//chowa kolumnê ID w dataGridView
+					this->dataGridView1->Columns["ID"]->Visible = false;
+				}
+				catch (Exception^ ex)
+				{
+					MessageBox::Show(ex->Message);
+				}
+				*/
 			}
 		}
 

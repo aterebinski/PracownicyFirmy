@@ -15,6 +15,12 @@ namespace PracownicyFirmy {
 	/// </summary>
 	public ref class PracownicyForm : public System::Windows::Forms::Form
 	{
+	private:
+		String^ connectionString = L"Server=(localdb)\\MSSQLLocalDB;Database=PracownicyDB;Trusted_Connection=True;";
+		//String^ connectionString = L"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PracownicyDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+		//String^ connectionString = L"Server=(localdb)\\MSSQLLocalDB;Database=PracownicyDB;Trusted_Connection=True;";
+		//String^ connectionString = L"Server=localhost\\SQLEXPRESS;Database=PracownicyDB;Trusted_Connection=True;";
+
 	public:
 		PracownicyForm(void)
 		{
@@ -36,7 +42,9 @@ namespace PracownicyFirmy {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	private: System::Windows::Forms::DataGridView^ PracownicyDataGridView;
+	protected:
+
 	private: System::Windows::Forms::Button^ DodajPracownikaBtn;
 	private: System::Windows::Forms::Button^ EdytujPracownikaBtn;
 	private: System::Windows::Forms::Button^ UsunPracownikaBtn;
@@ -55,29 +63,33 @@ namespace PracownicyFirmy {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->PracownicyDataGridView = (gcnew System::Windows::Forms::DataGridView());
 			this->DodajPracownikaBtn = (gcnew System::Windows::Forms::Button());
 			this->EdytujPracownikaBtn = (gcnew System::Windows::Forms::Button());
 			this->UsunPracownikaBtn = (gcnew System::Windows::Forms::Button());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->PracownicyDataGridView))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// dataGridView1
+			// PracownicyDataGridView
 			// 
-			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Location = System::Drawing::Point(169, 83);
-			this->dataGridView1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
-			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->RowHeadersWidth = 62;
-			this->dataGridView1->Size = System::Drawing::Size(778, 605);
-			this->dataGridView1->TabIndex = 0;
-			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &PracownicyForm::dataGridView1_CellContentClick);
+			this->PracownicyDataGridView->AllowUserToAddRows = false;
+			this->PracownicyDataGridView->AllowUserToDeleteRows = false;
+			this->PracownicyDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->PracownicyDataGridView->Location = System::Drawing::Point(113, 54);
+			this->PracownicyDataGridView->Name = L"PracownicyDataGridView";
+			this->PracownicyDataGridView->ReadOnly = true;
+			this->PracownicyDataGridView->RowHeadersVisible = false;
+			this->PracownicyDataGridView->RowHeadersWidth = 62;
+			this->PracownicyDataGridView->Size = System::Drawing::Size(519, 393);
+			this->PracownicyDataGridView->TabIndex = 0;
+			this->PracownicyDataGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &PracownicyForm::dataGridView1_CellContentClick);
 			// 
 			// DodajPracownikaBtn
 			// 
-			this->DodajPracownikaBtn->Location = System::Drawing::Point(169, 728);
+			this->DodajPracownikaBtn->Location = System::Drawing::Point(113, 473);
+			this->DodajPracownikaBtn->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->DodajPracownikaBtn->Name = L"DodajPracownikaBtn";
-			this->DodajPracownikaBtn->Size = System::Drawing::Size(200, 50);
+			this->DodajPracownikaBtn->Size = System::Drawing::Size(133, 32);
 			this->DodajPracownikaBtn->TabIndex = 1;
 			this->DodajPracownikaBtn->Text = L"Dodaj pracownika";
 			this->DodajPracownikaBtn->UseVisualStyleBackColor = true;
@@ -85,9 +97,10 @@ namespace PracownicyFirmy {
 			// 
 			// EdytujPracownikaBtn
 			// 
-			this->EdytujPracownikaBtn->Location = System::Drawing::Point(462, 728);
+			this->EdytujPracownikaBtn->Location = System::Drawing::Point(308, 473);
+			this->EdytujPracownikaBtn->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->EdytujPracownikaBtn->Name = L"EdytujPracownikaBtn";
-			this->EdytujPracownikaBtn->Size = System::Drawing::Size(200, 50);
+			this->EdytujPracownikaBtn->Size = System::Drawing::Size(133, 32);
 			this->EdytujPracownikaBtn->TabIndex = 2;
 			this->EdytujPracownikaBtn->Text = L"Edytuj pracownika";
 			this->EdytujPracownikaBtn->UseVisualStyleBackColor = true;
@@ -95,26 +108,26 @@ namespace PracownicyFirmy {
 			// 
 			// UsunPracownikaBtn
 			// 
-			this->UsunPracownikaBtn->Location = System::Drawing::Point(747, 728);
+			this->UsunPracownikaBtn->Location = System::Drawing::Point(498, 473);
+			this->UsunPracownikaBtn->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
 			this->UsunPracownikaBtn->Name = L"UsunPracownikaBtn";
-			this->UsunPracownikaBtn->Size = System::Drawing::Size(200, 50);
+			this->UsunPracownikaBtn->Size = System::Drawing::Size(133, 32);
 			this->UsunPracownikaBtn->TabIndex = 3;
 			this->UsunPracownikaBtn->Text = L"Usuñ pracownika";
 			this->UsunPracownikaBtn->UseVisualStyleBackColor = true;
 			// 
 			// PracownicyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1134, 934);
+			this->ClientSize = System::Drawing::Size(756, 607);
 			this->Controls->Add(this->UsunPracownikaBtn);
 			this->Controls->Add(this->EdytujPracownikaBtn);
 			this->Controls->Add(this->DodajPracownikaBtn);
-			this->Controls->Add(this->dataGridView1);
-			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->Controls->Add(this->PracownicyDataGridView);
 			this->Name = L"PracownicyForm";
 			this->Text = L"PracownicyForm";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->PracownicyDataGridView))->EndInit();
 			this->ResumeLayout(false);
 
 		}
@@ -123,11 +136,9 @@ namespace PracownicyFirmy {
 			}
 
 		   System::Void generateView() {
-			   //String^ connectionString = L"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PracownicyDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-			   //String^ connectionString = L"Server=(localdb)\\MSSQLLocalDB;Database=PracownicyDB;Trusted_Connection=True;";
-			   String^ connectionString = L"Server=localhost\\SQLEXPRESS;Database=PracownicyDB;Trusted_Connection=True;";
+			   
 			   SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-			   SqlCommand^ sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy", sqlConnection);
+			   SqlCommand^ sqlCommand = gcnew SqlCommand("select p.id, p.Imie, p.Nazwisko, s.Stanowisko, l.Miasto, p.Pensja from dbo.Pracownicy p, dbo.Stanowiska s, dbo.Lokalizacje l where p.IdStanowiska = s.id and p.IdLokalizacji = l.ID; ", sqlConnection);
 			   //SqlDataReader^ sqlDataReader;
 			   try
 			   {
@@ -138,8 +149,11 @@ namespace PracownicyFirmy {
 				   BindingSource^ bindingSource = gcnew BindingSource();
 
 				   bindingSource->DataSource = dataTable;
-				   dataGridView1->DataSource = bindingSource;
+				   PracownicyDataGridView->DataSource = bindingSource;
 				   sqlDataAdapter->Update(dataTable);
+
+				   //chowa kolumnê ID w dataGridView
+				   this->PracownicyDataGridView->Columns["ID"]->Visible = false;
 			   }
 			   catch (Exception^ ex)
 			   {
@@ -151,15 +165,16 @@ namespace PracownicyFirmy {
 				//https://www.youtube.com/watch?v=r_cj1uhs9-c
 		   };
 	private: System::Void DodajPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm(0);
+		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm(0, connectionString);
 		AddForm->Show();
 	}
-private: System::Void EdytujPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	int idPracownika = 0;
-	//dataGridView1->se
-	EdytujPracownikaForm^ EditForm = gcnew EdytujPracownikaForm(idPracownika);
-	EditForm->Show();
-}
+	private: System::Void EdytujPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		int idPracownika = 0;
+		idPracownika = (int)PracownicyDataGridView->CurrentRow->Cells[0]->Value;
+		//MessageBox::Show(idPracownika.ToString());
+		EdytujPracownikaForm^ EditForm = gcnew EdytujPracownikaForm(idPracownika, connectionString);
+		EditForm->Show();
+	}
 };
 
 	
