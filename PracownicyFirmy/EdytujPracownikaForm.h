@@ -7,6 +7,7 @@ namespace PracownicyFirmy {
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
+	using namespace System::Data::SqlClient;
 	using namespace System::Drawing;
 
 	/// <summary>
@@ -14,8 +15,17 @@ namespace PracownicyFirmy {
 	/// </summary>
 	public ref class EdytujPracownikaForm : public System::Windows::Forms::Form
 	{
-	public: int idPracownika = 0;
-		  String^ connectionString = "";
+	private: 
+		int idPracownika = 0, idStanowiska, idLokalizacji;
+		String^ imie;
+		String^ nazwisko;
+		String^ pensja;
+		String^ stanowisko;
+		String^ miasto;
+		String^ connectionString;
+		SqlConnection^ sqlConnection;
+		SqlCommand^ sqlCommand;
+		SqlDataAdapter^ sqlDataAdapter;
 
 	public:
 		EdytujPracownikaForm(int idPracownika, String^ connectionString)
@@ -27,33 +37,41 @@ namespace PracownicyFirmy {
 			this->idPracownika = idPracownika;
 			this->connectionString = connectionString;
 
+			sqlConnection = gcnew SqlConnection(connectionString);
+
+			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
+			sqlDataAdapter = gcnew SqlDataAdapter(sqlCommand);
+			DataTable^ dataTable = gcnew DataTable();
+			sqlDataAdapter->Fill(dataTable);
+			
+
+
 			
 			if (idPracownika!=0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
 			{
-				/*
-				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-				SqlCommand^ sqlCommand = gcnew SqlCommand("select p.id, p.Imie, p.Nazwisko, p.idStanowiska, p.idLokalizacji, p.Pensja from dbo.Pracownicy p, dbo.Stanowiska s, dbo.Lokalizacje l where p.IdStanowiska = s.id and p.IdLokalizacji = l.ID; ", sqlConnection);
-				//SqlDataReader^ sqlDataReader;
-				try
-				{
-					SqlDataAdapter^ sqlDataAdapter = gcnew SqlDataAdapter();
-					sqlDataAdapter->SelectCommand = sqlCommand;
-					DataTable^ dataTable = gcnew DataTable();
-					sqlDataAdapter->Fill(dataTable);
-					BindingSource^ bindingSource = gcnew BindingSource();
-
-					bindingSource->DataSource = dataTable;
-					dataGridView1->DataSource = bindingSource;
-					sqlDataAdapter->Update(dataTable);
-
-					//chowa kolumnê ID w dataGridView
-					this->dataGridView1->Columns["ID"]->Visible = false;
-				}
-				catch (Exception^ ex)
+				try {
+					//SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+					sqlConnection->Open();
+					sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy where id = " + idPracownika, sqlConnection);
+					SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
+					sqlDataReader->Read();
+					//sqlDataReader->GetValue(0);
+					//imie = sqlDataReader->GetValue(1)->ToString();
+					//sqlDataReader->GetValue(2);
+					//sqlDataReader->GetValue(3);
+					imie = sqlDataReader["imie"]->ToString();
+					this->ImieTextBox->Text = imie;
+					nazwisko = sqlDataReader["nazwisko"]->ToString();
+					this->NazwiskoTextBox->Text = nazwisko;
+					pensja = sqlDataReader["pensja"]->ToString();
+					this->PensjaTextBox->Text = pensja;
+					//MessageBox::Show(imie);
+					sqlDataReader->Close();
+				}catch (Exception^ ex)
 				{
 					MessageBox::Show(ex->Message);
 				}
-				*/
+				
 			}
 		}
 
