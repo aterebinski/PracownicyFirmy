@@ -44,7 +44,7 @@ namespace PracownicyFirmy {
 			DataTable^ dataTable = gcnew DataTable();
 			sqlDataAdapter->Fill(dataTable);
 			
-
+		https://www.functionx.com/vccli/controls/combobox.htm
 
 			
 			if (idPracownika!=0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
