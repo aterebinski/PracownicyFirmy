@@ -10,4 +10,5 @@ void Main(array<String^>^ args)
 	Application::SetCompatibleTextRenderingDefault(false);
 	PracownicyFirmy::PracownicyForm form;
 	Application::Run(% form);
+	
 }

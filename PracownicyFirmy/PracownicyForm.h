@@ -136,6 +136,7 @@ namespace PracownicyFirmy {
 			}
 
 		   System::Void generateView() {
+
 			   
 			   SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
 			   SqlCommand^ sqlCommand = gcnew SqlCommand("select p.id, p.Imie, p.Nazwisko, s.Stanowisko, l.Miasto, p.Pensja from dbo.Pracownicy p, dbo.Stanowiska s, dbo.Lokalizacje l where p.IdStanowiska = s.id and p.IdLokalizacji = l.ID; ", sqlConnection);

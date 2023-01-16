@@ -1,4 +1,5 @@
 #pragma once
+#include "ComboBoxItem.h"
 
 namespace PracownicyFirmy {
 
@@ -26,6 +27,7 @@ namespace PracownicyFirmy {
 		SqlConnection^ sqlConnection;
 		SqlCommand^ sqlCommand;
 		SqlDataAdapter^ sqlDataAdapter;
+		SqlDataReader^ sqlDataReader;
 
 	public:
 		EdytujPracownikaForm(int idPracownika, String^ connectionString)
@@ -38,20 +40,40 @@ namespace PracownicyFirmy {
 			this->connectionString = connectionString;
 
 			sqlConnection = gcnew SqlConnection(connectionString);
+			sqlConnection->Open();
 
+			/*
 			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
 			sqlDataAdapter = gcnew SqlDataAdapter(sqlCommand);
 			DataTable^ dataTable = gcnew DataTable();
 			sqlDataAdapter->Fill(dataTable);
+			*/
+
 			
-		https://www.functionx.com/vccli/controls/combobox.htm
+			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
+			
+			sqlDataReader = sqlCommand->ExecuteReader();
+			while (sqlDataReader->Read()) {
+				this->StanowiskoCBox->Items->Add(gcnew ComboBoxItem(sqlDataReader["stanowisko"]->ToString(), sqlDataReader["id"]->ToString()));
+			}
+			sqlDataReader->Close();
+
+			sqlCommand = gcnew SqlCommand("select * from dbo.Lokalizacje", sqlConnection);
+
+			sqlDataReader = sqlCommand->ExecuteReader();
+			while (sqlDataReader->Read()) {
+				this->LokalizacjaCBox->Items->Add(gcnew ComboBoxItem(sqlDataReader["Miasto"]->ToString(), sqlDataReader["id"]->ToString()));
+			}
+			sqlDataReader->Close();
+			
+		//https://www.functionx.com/vccli/controls/combobox.htm
 
 			
 			if (idPracownika!=0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
 			{
 				try {
 					//SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-					sqlConnection->Open();
+					//sqlConnection->Open();
 					sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy where id = " + idPracownika, sqlConnection);
 					SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
 					sqlDataReader->Read();
@@ -180,6 +202,10 @@ namespace PracownicyFirmy {
 			this->StanowiskoCBox->Name = L"StanowiskoCBox";
 			this->StanowiskoCBox->Size = System::Drawing::Size(278, 28);
 			this->StanowiskoCBox->TabIndex = 3;
+
+			this->StanowiskoCBox->DisplayMember = L"Text";
+			this->StanowiskoCBox->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+			this->StanowiskoCBox->ValueMember = L"Value";
 			// 
 			// NazwiskoLbl
 			// 
@@ -246,6 +272,10 @@ namespace PracownicyFirmy {
 			this->LokalizacjaCBox->Name = L"LokalizacjaCBox";
 			this->LokalizacjaCBox->Size = System::Drawing::Size(278, 28);
 			this->LokalizacjaCBox->TabIndex = 10;
+
+			this->LokalizacjaCBox->DisplayMember = L"Text";
+			this->LokalizacjaCBox->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+			this->LokalizacjaCBox->ValueMember = L"Value";
 			// 
 			// AnulujBtn
 			// 
