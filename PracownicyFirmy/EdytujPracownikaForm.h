@@ -17,17 +17,16 @@ namespace PracownicyFirmy {
 	public ref class EdytujPracownikaForm : public System::Windows::Forms::Form
 	{
 	private: 
-		int idPracownika = 0, idStanowiska, idLokalizacji;
+		int idPracownika = 0;
+		String^ idStanowiska;
+		String^ idLokalizacji;
 		String^ imie;
 		String^ nazwisko;
 		String^ pensja;
 		String^ stanowisko;
 		String^ miasto;
 		String^ connectionString;
-		SqlConnection^ sqlConnection;
-		SqlCommand^ sqlCommand;
-		SqlDataAdapter^ sqlDataAdapter;
-		SqlDataReader^ sqlDataReader;
+
 
 	public:
 		EdytujPracownikaForm(int idPracownika, String^ connectionString)
@@ -39,32 +38,12 @@ namespace PracownicyFirmy {
 			this->idPracownika = idPracownika;
 			this->connectionString = connectionString;
 
-			sqlConnection = gcnew SqlConnection(connectionString);
+			SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+			SqlCommand^ sqlCommand;
+			SqlDataReader^ sqlDataReader;
 			sqlConnection->Open();
-
-			/*
-			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
-			sqlDataAdapter = gcnew SqlDataAdapter(sqlCommand);
-			DataTable^ dataTable = gcnew DataTable();
-			sqlDataAdapter->Fill(dataTable);
-			*/
-
 			
-			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
 			
-			sqlDataReader = sqlCommand->ExecuteReader();
-			while (sqlDataReader->Read()) {
-				this->StanowiskoCBox->Items->Add(gcnew ComboBoxItem(sqlDataReader["stanowisko"]->ToString(), sqlDataReader["id"]->ToString()));
-			}
-			sqlDataReader->Close();
-
-			sqlCommand = gcnew SqlCommand("select * from dbo.Lokalizacje", sqlConnection);
-
-			sqlDataReader = sqlCommand->ExecuteReader();
-			while (sqlDataReader->Read()) {
-				this->LokalizacjaCBox->Items->Add(gcnew ComboBoxItem(sqlDataReader["Miasto"]->ToString(), sqlDataReader["id"]->ToString()));
-			}
-			sqlDataReader->Close();
 			
 		//https://www.functionx.com/vccli/controls/combobox.htm
 
@@ -72,8 +51,7 @@ namespace PracownicyFirmy {
 			if (idPracownika!=0) //jesli edytujemy dane to trzeba wyswietlic dane w odpowiednich polach
 			{
 				try {
-					//SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
-					//sqlConnection->Open();
+
 					sqlCommand = gcnew SqlCommand("select * from dbo.Pracownicy where id = " + idPracownika, sqlConnection);
 					SqlDataReader^ sqlDataReader = sqlCommand->ExecuteReader();
 					sqlDataReader->Read();
@@ -87,7 +65,9 @@ namespace PracownicyFirmy {
 					this->NazwiskoTextBox->Text = nazwisko;
 					pensja = sqlDataReader["pensja"]->ToString();
 					this->PensjaTextBox->Text = pensja;
-					//MessageBox::Show(imie);
+					idStanowiska = sqlDataReader["idStanowiska"]->ToString();
+					idLokalizacji = sqlDataReader["idStanowiska"]->ToString();
+
 					sqlDataReader->Close();
 				}catch (Exception^ ex)
 				{
@@ -95,6 +75,41 @@ namespace PracownicyFirmy {
 				}
 				
 			}
+
+			//uzupe³nianie comboboxów
+
+			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
+
+			ComboBoxItem^ tempComboBoxItem;
+			String^ tempId;
+			String^ tempValue;
+
+			sqlDataReader = sqlCommand->ExecuteReader();
+			while (sqlDataReader->Read()) {
+				tempId = sqlDataReader["id"]->ToString();
+				tempValue = sqlDataReader["stanowisko"]->ToString();
+				tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
+				this->StanowiskoCBox->Items->Add(tempComboBoxItem);
+				if ((idPracownika != 0)&&(idStanowiska== tempId)) this->StanowiskoCBox->SelectedItem = tempComboBoxItem;
+			}
+			sqlDataReader->Close();
+
+			sqlCommand = gcnew SqlCommand("select * from dbo.Lokalizacje", sqlConnection);
+
+			sqlDataReader = sqlCommand->ExecuteReader();
+			while (sqlDataReader->Read()) {
+				tempId = sqlDataReader["id"]->ToString();
+				tempValue = sqlDataReader["miasto"]->ToString();
+				tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
+				this->LokalizacjaCBox->Items->Add(tempComboBoxItem);
+				if ((idPracownika != 0) && (idLokalizacji == tempId)) this->LokalizacjaCBox->SelectedItem = tempComboBoxItem;
+			}
+			//MessageBox::Show(this->LokalizacjaCBox->SelectedValue->ToString());
+
+
+			sqlDataReader->Close();
+			sqlConnection->Close();
+
 		}
 
 	protected:
@@ -314,6 +329,62 @@ namespace PracownicyFirmy {
 		}
 #pragma endregion
 	private: System::Void OkBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		ComboBoxItem^ selectedLokalizacja = (ComboBoxItem^)this->LokalizacjaCBox->SelectedItem;
+		//MessageBox::Show(selectedLokalizacja->getId());
+
+		ComboBoxItem^ selectedStanowisko = (ComboBoxItem^)this->StanowiskoCBox->SelectedItem;
+
+
+		imie = this->ImieTextBox->Text;
+		nazwisko = this->NazwiskoTextBox->Text;
+		pensja = this->PensjaTextBox->Text;
+		idLokalizacji = selectedLokalizacja->getId();
+		idStanowiska = selectedStanowisko->getId();
+
+		float dlPensja;
+		int intIdStanowiska, intIdLokalizacji;
+		String^ sqlString;
+		
+		if ((imie=="")||(nazwisko=="")||(pensja=="")||(idLokalizacji=="")||(idStanowiska==""))
+		{
+			MessageBox::Show("Wype³nij wszystkie pola");
+		}
+		else if (dlPensja = Convert::ToDouble(pensja)) {
+			intIdStanowiska = Convert::ToInt32(idStanowiska);
+			intIdLokalizacji = Convert::ToInt32(idLokalizacji);
+
+			if (idPracownika==0) //dodanie nowego rekordu do tabeli Pracownicy
+			{
+				sqlString = "insert into dbo.Pracownicy(imie,nazwisko,pensja,idStanowiska,idLokalizacji) values (@imie,@nazwisko,@pensja,@idStanowiska,@idLokalizacji);";
+			}
+			else { //edycja rekordu tabeli Pracownicy
+				sqlString = "update dbo.Pracownicy set imie = @imie, nazwisko = @nazwisko, pensja = @pensja, idStanowiska = @idstanowiska, idLokalizacji = @idLokalizacji " +
+					"where ID = @ipPracownika ;";
+			}
+
+			try {
+				SqlConnection^ sqlConnection = gcnew SqlConnection(connectionString);
+				sqlConnection->Open();
+				SqlCommand^ sqlCommand = gcnew SqlCommand(sqlString, sqlConnection);
+				sqlCommand->Parameters->Add("@imie", imie);
+				sqlCommand->Parameters->Add("@nazwisko", nazwisko);
+				sqlCommand->Parameters->Add("@pensja", pensja);
+				sqlCommand->Parameters->Add("@idStanowiska", intIdStanowiska);
+				sqlCommand->Parameters->Add("@idLokalizacji", intIdLokalizacji);
+				if (idPracownika != 0) sqlCommand->Parameters->Add("@idPracownika", idPracownika);
+
+				sqlCommand->ExecuteNonQuery();
+
+				sqlConnection->Close();
+			}
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			}
+			
+			EdytujPracownikaForm::Close();
+
+
+		}
 	}
 private: System::Void AnulujBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	EdytujPracownikaForm::Close();

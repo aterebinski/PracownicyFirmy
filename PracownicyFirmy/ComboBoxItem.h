@@ -6,14 +6,15 @@ namespace PracownicyFirmy {
 	public ref class ComboBoxItem
 	{
 	public:
-		ComboBoxItem(String^ text, Object^ value)
+		ComboBoxItem(String^ id, String^ value)
 		{
-			_text = text;
-			_value = value;
+			this->id = id;
+			this->value = value;
 		}
-		String^ _text = "";
-		Object^ _value;
-		
+	private:
+		String^ id = "";
+		String^ value;
+
 		/*
 	public: property String^ Text
 	{
@@ -38,12 +39,22 @@ namespace PracownicyFirmy {
 		}
 	}
 		*/
-	public:  String^ ToString() override
-	{
-		return _text;
+
+
+		public:  String^ ToString() override
+		{
+			return value;
+		}
+
+
+
+		public: String^ getValue() {
+			return value;
+		}
+
+	public: String^ getId() {
+		return id;
 	}
-	
+
 	};
-
-
 }

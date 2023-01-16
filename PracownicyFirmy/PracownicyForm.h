@@ -149,8 +149,11 @@ namespace PracownicyFirmy {
 				   sqlDataAdapter->Fill(dataTable);
 				   BindingSource^ bindingSource = gcnew BindingSource();
 
-				   bindingSource->DataSource = dataTable;
-				   PracownicyDataGridView->DataSource = bindingSource;
+				   //bindingSource->DataSource = dataTable;
+				   //PracownicyDataGridView->DataSource = bindingSource;
+
+
+				   PracownicyDataGridView->DataSource = dataTable;
 				   sqlDataAdapter->Update(dataTable);
 
 				   //chowa kolumnê ID w dataGridView
@@ -169,6 +172,9 @@ namespace PracownicyFirmy {
 		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm(0, connectionString);
 		AddForm->Show();
 	}
+
+
+
 	private: System::Void EdytujPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 		int idPracownika = 0;
 		idPracownika = (int)PracownicyDataGridView->CurrentRow->Cells[0]->Value;
