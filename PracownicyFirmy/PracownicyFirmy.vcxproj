@@ -25,7 +25,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>PracownicyFirmy</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -125,6 +125,7 @@
     <ClCompile Include="EdytujPracownikaForm.cpp" />
     <ClCompile Include="PracownicyForm.cpp" />
     <ClCompile Include="Pracownik.cpp" />
+    <ClCompile Include="DictionaryForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComboBoxItem.h" />
@@ -134,7 +135,9 @@
     <ClInclude Include="PracownicyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Pracownik.h" />
+    <ClInclude Include="DictionaryForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EdytujPracownikaForm.resx">
@@ -142,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PracownicyForm.resx">
       <DependentUpon>PracownicyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DictionaryForm.resx">
+      <DependentUpon>DictionaryForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

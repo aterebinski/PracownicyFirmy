@@ -77,35 +77,41 @@ namespace PracownicyFirmy {
 			}
 
 			//uzupe³nianie comboboxów
+			try {
 
-			sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
 
-			ComboBoxItem^ tempComboBoxItem;
-			String^ tempId;
-			String^ tempValue;
+				sqlCommand = gcnew SqlCommand("select * from dbo.Stanowiska", sqlConnection);
 
-			sqlDataReader = sqlCommand->ExecuteReader();
-			while (sqlDataReader->Read()) {
-				tempId = sqlDataReader["id"]->ToString();
-				tempValue = sqlDataReader["stanowisko"]->ToString();
-				tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
-				this->StanowiskoCBox->Items->Add(tempComboBoxItem);
-				if ((idPracownika != 0)&&(idStanowiska== tempId)) this->StanowiskoCBox->SelectedItem = tempComboBoxItem;
+				ComboBoxItem^ tempComboBoxItem;
+				String^ tempId;
+				String^ tempValue;
+
+				sqlDataReader = sqlCommand->ExecuteReader();
+				while (sqlDataReader->Read()) {
+					tempId = sqlDataReader["id"]->ToString();
+					tempValue = sqlDataReader["stanowisko"]->ToString();
+					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
+					this->StanowiskoCBox->Items->Add(tempComboBoxItem);
+					if ((idPracownika != 0) && (idStanowiska == tempId)) this->StanowiskoCBox->SelectedItem = tempComboBoxItem;
+				}
+				sqlDataReader->Close();
+
+				sqlCommand = gcnew SqlCommand("select * from dbo.Lokalizacje", sqlConnection);
+
+				sqlDataReader = sqlCommand->ExecuteReader();
+				while (sqlDataReader->Read()) {
+					tempId = sqlDataReader["id"]->ToString();
+					tempValue = sqlDataReader["miasto"]->ToString();
+					tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
+					this->LokalizacjaCBox->Items->Add(tempComboBoxItem);
+					if ((idPracownika != 0) && (idLokalizacji == tempId)) this->LokalizacjaCBox->SelectedItem = tempComboBoxItem;
+				}
+				//MessageBox::Show(this->LokalizacjaCBox->SelectedValue->ToString());
+
 			}
-			sqlDataReader->Close();
-
-			sqlCommand = gcnew SqlCommand("select * from dbo.Lokalizacje", sqlConnection);
-
-			sqlDataReader = sqlCommand->ExecuteReader();
-			while (sqlDataReader->Read()) {
-				tempId = sqlDataReader["id"]->ToString();
-				tempValue = sqlDataReader["miasto"]->ToString();
-				tempComboBoxItem = gcnew ComboBoxItem(tempId, tempValue);
-				this->LokalizacjaCBox->Items->Add(tempComboBoxItem);
-				if ((idPracownika != 0) && (idLokalizacji == tempId)) this->LokalizacjaCBox->SelectedItem = tempComboBoxItem;
-			}
-			//MessageBox::Show(this->LokalizacjaCBox->SelectedValue->ToString());
-
+			catch (Exception^ e) {
+				MessageBox::Show(e->ToString());
+			};
 
 			sqlDataReader->Close();
 			sqlConnection->Close();
@@ -342,7 +348,7 @@ namespace PracownicyFirmy {
 		idLokalizacji = selectedLokalizacja->getId();
 		idStanowiska = selectedStanowisko->getId();
 
-		float dlPensja;
+		double dlPensja;
 		int intIdStanowiska, intIdLokalizacji;
 		String^ sqlString;
 		
