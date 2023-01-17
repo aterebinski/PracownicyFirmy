@@ -170,7 +170,9 @@ namespace PracownicyFirmy {
 		   };
 	private: System::Void DodajPracownikaBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 		EdytujPracownikaForm^ AddForm = gcnew EdytujPracownikaForm(0, connectionString);
-		AddForm->Show();
+		AddForm->ShowDialog();
+		this->generateView();
+		//Application::Restart();
 	}
 
 
@@ -180,7 +182,10 @@ namespace PracownicyFirmy {
 		idPracownika = (int)PracownicyDataGridView->CurrentRow->Cells[0]->Value;
 		//MessageBox::Show(idPracownika.ToString());
 		EdytujPracownikaForm^ EditForm = gcnew EdytujPracownikaForm(idPracownika, connectionString);
-		EditForm->Show();
+		EditForm->ShowDialog();
+		this->generateView();
+		//this->Refresh();
+		//Application::Restart();
 	}
 };
 
