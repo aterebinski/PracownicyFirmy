@@ -66,7 +66,7 @@ namespace PracownicyFirmy {
 					pensja = sqlDataReader["pensja"]->ToString();
 					this->PensjaTextBox->Text = pensja;
 					idStanowiska = sqlDataReader["idStanowiska"]->ToString();
-					idLokalizacji = sqlDataReader["idStanowiska"]->ToString();
+					idLokalizacji = sqlDataReader["idLokalizacji"]->ToString();
 
 					sqlDataReader->Close();
 				}catch (Exception^ ex)
